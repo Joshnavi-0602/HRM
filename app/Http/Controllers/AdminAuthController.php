@@ -35,6 +35,6 @@ class AdminAuthController extends Controller
     // Admin dashboard
     public function dashboard()
     {
-        return "Admin Dashboard - Welcome " . Auth::user()->first_name;
+        return view('admin.dashboard');
     }
 }
