@@ -7,31 +7,34 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminAuthController extends Controller
 {
-    //showLogin
+    // Show admin login form
     public function showLogin(){
-        return view('employee.login');
+        return view('admin.login'); // Use employee login view
     }
 
-    //Login
-    public function Login(Request $request){
+    // Handle admin login
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
 
-        $credentials = $request->only('email','password');
-        //if (Auth::attempt($credentials))
-        //return redirect('/admin/dashboard');
         if (Auth::attempt($credentials)) {
-            if (Auth::user()->role == 'admin') {
-                return redirect('/admin/dashboard');
-            }
-            return "Not admin";
-        } 
+            $request->session()->regenerate(); // Security: regenerate session
 
-        return back()->with('error','Invalid admin login');
+            if (Auth::user()->role === 'admin') {
+                return redirect()->intended('/admin/dashboard');
+            }
+
+            // If not admin, logout
+            Auth::logout();
+            return back()->with('error', 'Not admin');
+        }
+
+        return back()->with('error', 'Invalid admin login');
     }
 
-    //dashboard
+    // Admin dashboard
     public function dashboard()
     {
         return "Admin Dashboard - Welcome " . Auth::user()->first_name;
     }
-
 }
