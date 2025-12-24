@@ -17,7 +17,7 @@ Route::get('/employee', function() {
 Route::get('/employee/register', [EmployeeAuthController::class, 'showRegister']);
 Route::post('/employee/register', [EmployeeAuthController::class, 'register']);
 
-Route::get('/employee/login', [EmployeeAuthController::class, 'showLogin'])->name('login'); // DEFAULT login
+Route::get('/employee/login', [EmployeeAuthController::class, 'showLogin'])->name('login'); 
 Route::post('/employee/login', [EmployeeAuthController::class, 'login']);
 
 Route::middleware(['auth'])->group(function () {
@@ -25,7 +25,11 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // ----------------- Admin Routes -----------------
+<<<<<<< HEAD
 Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login'); // FIXED 
+=======
+Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login'); 
+>>>>>>> 648fd905426037c9df4fb47c5c50d2c633140b97
 Route::post('/admin/login', [AdminAuthController::class, 'login']);
 
 Route::middleware(['auth'])->group(function () {
