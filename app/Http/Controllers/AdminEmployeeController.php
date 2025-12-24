@@ -67,7 +67,7 @@ class AdminEmployeeController extends Controller
         return redirect()->route('admin.employees.index')->with('success', 'Employee updated successfully.');
     }
 
-    // Delete employee
+    // Delete employee 
     public function destroy($id){
         $employee = User::findOrFail($id);
         $employee->delete();

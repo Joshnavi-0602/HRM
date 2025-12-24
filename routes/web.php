@@ -5,6 +5,14 @@ use App\Http\Controllers\EmployeeAuthController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminEmployeeController;
 
+
+Route::get('/', function () {
+    return view('welcome');
+});
+Route::get('/employee', function() { 
+    return view('employee.choice');
+});
+
 // ----------------- Employee Routes -----------------
 Route::get('/employee/register', [EmployeeAuthController::class, 'showRegister']);
 Route::post('/employee/register', [EmployeeAuthController::class, 'register']);
@@ -17,7 +25,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // ----------------- Admin Routes -----------------
-Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login'); // FIXED
+Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login'); // FIXED 
 Route::post('/admin/login', [AdminAuthController::class, 'login']);
 
 Route::middleware(['auth'])->group(function () {
@@ -29,4 +37,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/employees/{id}/edit', [AdminEmployeeController::class, 'edit'])->name('admin.employees.edit'); 
     Route::put('/admin/employees/{id}', [AdminEmployeeController::class, 'update'])->name('admin.employees.update'); 
     Route::delete('/admin/employees/{id}', [AdminEmployeeController::class, 'destroy'])->name('admin.employees.destroy'); 
+
+    Route::post('/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/admin/login');
+    })->name('logout');
+
 });
