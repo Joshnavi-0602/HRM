@@ -12,7 +12,6 @@
             background: #f4f6f9;
             font-family: Arial, sans-serif;
         }
-
         .card {
             background: #fff;
             padding: 40px;
@@ -21,12 +20,10 @@
             text-align: center;
             width: 350px;
         }
-
         h2 {
             margin-bottom: 30px;
             color: #333;
         }
-
         a {
             display: block;
             padding: 12px;
@@ -35,17 +32,14 @@
             border-radius: 8px;
             font-weight: bold;
         }
-
         .login {
             background: #2563eb;
             color: #fff;
         }
-
         .register {
             background: #16a34a;
             color: #fff;
         }
-
         a:hover {
             opacity: 0.9;
         }
@@ -56,8 +50,8 @@
 <div class="card">
     <h2>Employee</h2>
 
-    <a href="/employee/login" class="login">Login</a>
-    <a href="/employee/register" class="register">Register</a>
+    <a href="{{ url('/employee/login') }}" class="login">Login</a>
+    <a href="{{ url('/employee/register') }}" class="register">Register</a>
 </div>
 
 </body>

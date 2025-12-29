@@ -1,15 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\EmployeeAuthController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminEmployeeController;
 
-
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/employee', function() { 
+
+// Employee choice page
+Route::get('/employee', function () {
     return view('employee.choice');
 });
 
@@ -17,36 +19,31 @@ Route::get('/employee', function() {
 Route::get('/employee/register', [EmployeeAuthController::class, 'showRegister']);
 Route::post('/employee/register', [EmployeeAuthController::class, 'register']);
 
-Route::get('/employee/login', [EmployeeAuthController::class, 'showLogin'])->name('login'); 
+Route::get('/employee/login', [EmployeeAuthController::class, 'showLogin'])->name('login');
 Route::post('/employee/login', [EmployeeAuthController::class, 'login']);
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('/employee/dashboard', [EmployeeAuthController::class, 'dashboard']);
 });
 
 // ----------------- Admin Routes -----------------
-<<<<<<< HEAD
-Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login'); // FIXED 
-=======
-Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login'); 
->>>>>>> 648fd905426037c9df4fb47c5c50d2c633140b97
+Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'login']);
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('/admin/dashboard', [AdminAuthController::class, 'dashboard']);
 
-    Route::get('/admin/employees', [AdminEmployeeController::class, 'index'])->name('admin.employees.index'); 
+    Route::get('/admin/employees', [AdminEmployeeController::class, 'index'])->name('admin.employees.index');
     Route::get('/admin/employees/create', [AdminEmployeeController::class, 'create'])->name('admin.employees.create');
     Route::post('/admin/employees', [AdminEmployeeController::class, 'store'])->name('admin.employees.store');
-    Route::get('/admin/employees/{id}/edit', [AdminEmployeeController::class, 'edit'])->name('admin.employees.edit'); 
-    Route::put('/admin/employees/{id}', [AdminEmployeeController::class, 'update'])->name('admin.employees.update'); 
-    Route::delete('/admin/employees/{id}', [AdminEmployeeController::class, 'destroy'])->name('admin.employees.destroy'); 
+    Route::get('/admin/employees/{id}/edit', [AdminEmployeeController::class, 'edit'])->name('admin.employees.edit');
+    Route::put('/admin/employees/{id}', [AdminEmployeeController::class, 'update'])->name('admin.employees.update');
+    Route::delete('/admin/employees/{id}', [AdminEmployeeController::class, 'destroy'])->name('admin.employees.destroy');
 
     Route::post('/logout', function () {
-    Auth::logout();
-    request()->session()->invalidate();
-    request()->session()->regenerateToken();
-    return redirect('/admin/login');
+        Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect('/admin/login');
     })->name('logout');
-
 });
